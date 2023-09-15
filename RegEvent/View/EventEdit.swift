@@ -14,6 +14,12 @@ struct EventEdit: View {
 
     var body: some View {
         List {
+            HStack {
+                Text("タイトル")
+                TextField("入力", text: $event.title)
+                    .multilineTextAlignment(TextAlignment.trailing)
+            }
+
             DatePicker("日付", selection: $event.date, displayedComponents: [.date])
                 .environment(\.locale, Locale(identifier: "ja_JP"))
 
@@ -48,7 +54,7 @@ struct EventEdit: View {
                         .pickerStyle(.wheel)
                         .frame(width: 100, height: 100)
                         
-                        Text("-")
+                        Text("－")
                         
                         Picker("終了時刻", selection: $event.endHour) {
                             ForEach(1 ... 24, id: \.self) { i in
@@ -72,8 +78,8 @@ struct EventEdit: View {
             }
 
             Picker("場所", selection: $event.location) {
-                ForEach(0 ..< modelData.locations.count, id: \.self) { i in
-                    Text(modelData.locations[i].short)
+                ForEach(modelData.locations) { location in
+                    Text(location.short).tag(location.id)
                 }
             }
 
@@ -83,13 +89,12 @@ struct EventEdit: View {
                     .multilineTextAlignment(TextAlignment.trailing)
             }
         }
-        .padding()
     }
 }
 
 struct EventEdit_Previews: PreviewProvider {
     static var previews: some View {
-        EventEdit(event: .constant(Event(date: Date(), selectedHour: 0, location: 0, courtNumber: "")))
+        EventEdit(event: .constant(Event(title: "", date: Date(), selectedHour: 0, location: 0, courtNumber: "")))
             .environmentObject(ModelData())
     }
 }

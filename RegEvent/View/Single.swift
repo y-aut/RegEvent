@@ -9,9 +9,28 @@ import SwiftUI
 
 struct Single: View {
     @EnvironmentObject var modelData: ModelData
+    @State private var showAlert = false
 
     var body: some View {
-        EventEdit(event: $modelData.event)
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Spacer()
+                Button("追加") {
+                    showAlert = true
+                }
+                .alert("カレンダーに追加", isPresented: $showAlert) {
+                    Button("キャンセル") {
+                    }
+                    Button("OK") {
+                    }
+                } message: {
+                    Text("以下のイベントをカレンダーに追加してもよろしいですか？\n\n\(modelData.event.eventString(modelData: modelData))")
+                }
+            }
+
+            EventEdit(event: $modelData.event)
+        }
+        .padding()
     }
 }
 

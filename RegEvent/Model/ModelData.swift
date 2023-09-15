@@ -8,7 +8,7 @@
 import Foundation
 
 final class ModelData: ObservableObject {
-    @Published var event = Event(date: Date(), selectedHour: 0, location: 0, courtNumber: "")
+    @Published var event = Event(title: "", date: Date(), selectedHour: 0, location: 0, courtNumber: "")
     var locations: [Location] = load("locationData.json")
 }
 
