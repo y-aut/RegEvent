@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EventEdit: View {
+    @EnvironmentObject var modelData: ModelData
     @Binding var event: Event
     @State private var hourPickerIndex = 0
 
@@ -69,6 +70,18 @@ struct EventEdit: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .transition(.slide)
             }
+
+            Picker("場所", selection: $event.location) {
+                ForEach(0 ..< modelData.locations.count, id: \.self) { i in
+                    Text(modelData.locations[i].short)
+                }
+            }
+
+            HStack {
+                Text("コート番号")
+                TextField("入力", text: $event.courtNumber)
+                    .multilineTextAlignment(TextAlignment.trailing)
+            }
         }
         .padding()
     }
@@ -76,6 +89,7 @@ struct EventEdit: View {
 
 struct EventEdit_Previews: PreviewProvider {
     static var previews: some View {
-        EventEdit(event: .constant(Event(date: Date(), selectedHour: 0)))
+        EventEdit(event: .constant(Event(date: Date(), selectedHour: 0, location: 0, courtNumber: "")))
+            .environmentObject(ModelData())
     }
 }

@@ -11,6 +11,8 @@ struct Event {
     var date: Date
     var startHour = 0
     var endHour = 0
+    var location: Int
+    var courtNumber = ""
 
     private var selectedHourValue = 0  // startHour, endHour を指定するときは -1
     var selectedHour: Int {
@@ -30,13 +32,17 @@ struct Event {
         (8, 10), (10, 12), (12, 14), (14, 16), (16, 18), (18, 21)
     ]
 
-    init(date: Date, selectedHour: Int) {
+    init(date: Date, selectedHour: Int, location: Int, courtNumber: String) {
         self.date = date
+        self.location = location
+        self.courtNumber = courtNumber
         self.selectedHour = selectedHour
     }
 
-    init(date: Date, startHour: Int, endHour: Int) {
+    init(date: Date, startHour: Int, endHour: Int, location: Int, courtNumber: String) {
         self.date = date
+        self.location = location
+        self.courtNumber = courtNumber
         selectedHour = -1
         self.startHour = startHour
         self.endHour = endHour
