@@ -6,21 +6,38 @@
 //
 
 import SwiftUI
+import EventKit
 
 struct EventEdit: View {
     @EnvironmentObject var modelData: ModelData
-    @Binding var event: Event
     @State private var hourPickerIndex = 0
+    private static let courtNumberToggles = ["1", "2", "3", "4", "5", "?"]
+    @State private var courtNumberToggleValue = [Bool](repeating: false, count: courtNumberToggles.count)
 
     var body: some View {
         List {
+            Section {
+                Picker("カレンダー", selection: $modelData.calendar) {
+                    ForEach(modelData.eventManager.eventStore.calendars(for: .event), id: \.calendarIdentifier) { calendar in
+                        if (calendar.allowsContentModifications) {
+                            Text(calendar.title)
+                                .tag(EKCalendar?.some(calendar))
+                        }
+                    }
+                }
+            } footer: {
+                if (!modelData.eventManager.eventStoreAuthorized()) {
+                    Text("カレンダーへのアクセスが許可されていません。")
+                }
+            }
+
             HStack {
                 Text("タイトル")
-                TextField("入力", text: $event.title)
+                TextField("入力", text: $modelData.event.title)
                     .multilineTextAlignment(TextAlignment.trailing)
             }
 
-            DatePicker("日付", selection: $event.date, displayedComponents: [.date])
+            DatePicker("日付", selection: $modelData.event.date, displayedComponents: [.date])
                 .environment(\.locale, Locale(identifier: "ja_JP"))
 
             Picker("時刻", selection: $hourPickerIndex) {
@@ -31,23 +48,23 @@ struct EventEdit: View {
             }
             .onChange(of: hourPickerIndex) { _ in
                 withAnimation {
-                    event.selectedHour = hourPickerIndex
+                    modelData.event.selectedHour = hourPickerIndex
                 }
             }
             .pickerStyle(.inline)
 
-            if (event.selectedHour == -1) {
+            if (modelData.event.selectedHour == -1) {
                 Section {
                     HStack {
-                        Picker("開始時刻", selection: $event.startHour) {
+                        Picker("開始時刻", selection: $modelData.event.startHour) {
                             ForEach(0 ..< 24, id: \.self) { i in
                                 Text(String(i))
                             }
                         }
-                        .onChange(of: event.startHour) { _ in
-                            if (event.startHour >= event.endHour) {
+                        .onChange(of: modelData.event.startHour) { _ in
+                            if (modelData.event.startHour >= modelData.event.endHour) {
                                 withAnimation {
-                                    event.endHour = event.startHour + 1
+                                    modelData.event.endHour = modelData.event.startHour + 1
                                 }
                             }
                         }
@@ -56,15 +73,15 @@ struct EventEdit: View {
                         
                         Text("－")
                         
-                        Picker("終了時刻", selection: $event.endHour) {
+                        Picker("終了時刻", selection: $modelData.event.endHour) {
                             ForEach(1 ... 24, id: \.self) { i in
                                 Text(String(i))
                             }
                         }
-                        .onChange(of: event.endHour) { _ in
-                            if (event.startHour >= event.endHour) {
+                        .onChange(of: modelData.event.endHour) { _ in
+                            if (modelData.event.startHour >= modelData.event.endHour) {
                                 withAnimation {
-                                    event.startHour = event.endHour - 1
+                                    modelData.event.startHour = modelData.event.endHour - 1
                                 }
                             }
                         }
@@ -77,7 +94,7 @@ struct EventEdit: View {
                 .transition(.slide)
             }
 
-            Picker("場所", selection: $event.location) {
+            Picker("場所", selection: $modelData.event.location) {
                 ForEach(modelData.locations) { location in
                     Text(location.short).tag(location.id)
                 }
@@ -85,16 +102,38 @@ struct EventEdit: View {
 
             HStack {
                 Text("コート番号")
-                TextField("入力", text: $event.courtNumber)
+                TextField("入力", text: $modelData.event.courtNumber)
                     .multilineTextAlignment(TextAlignment.trailing)
             }
+
+            HStack {
+                Spacer()
+
+                ForEach(0 ..< Self.courtNumberToggles.count, id: \.self) { i in
+                    Toggle(isOn: $courtNumberToggleValue[i]) {
+                    }
+                    .toggleStyle(CircleToggle(text: Self.courtNumberToggles[i]))
+                    .onChange(of: courtNumberToggleValue[i]) { value in
+                        if (value) {
+                            for j in 0 ..< Self.courtNumberToggles.count {
+                                if (i == j) { continue }
+                                courtNumberToggleValue[j] = false
+                            }
+                            $modelData.event.courtNumber.wrappedValue = Self.courtNumberToggles[i]
+                        } else if (courtNumberToggleValue.allSatisfy { b in !b }) {
+                            $modelData.event.courtNumber.wrappedValue = ""
+                        }
+                    }
+                }
+            }
         }
+        .disabled(!modelData.eventManager.eventStoreAuthorized())
     }
 }
 
 struct EventEdit_Previews: PreviewProvider {
     static var previews: some View {
-        EventEdit(event: .constant(Event(title: "", date: Date(), selectedHour: 0, location: 0, courtNumber: "")))
+        EventEdit()
             .environmentObject(ModelData())
     }
 }

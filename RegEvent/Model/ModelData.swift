@@ -6,10 +6,18 @@
 //
 
 import Foundation
+import EventKit
 
 final class ModelData: ObservableObject {
     @Published var event = Event(title: "", date: Date(), selectedHour: 0, location: 0, courtNumber: "")
+    @Published var calendar: EKCalendar? = nil
+    @Published var eventManager = EventManager()
     var locations: [Location] = load("locationData.json")
+
+    func getCalendar() {
+        _ = eventManager.confirmEventStoreAuth()
+        calendar = eventManager.eventStore.defaultCalendarForNewEvents
+    }
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

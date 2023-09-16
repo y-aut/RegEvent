@@ -17,6 +17,9 @@
 		C06C6F822AB48AE0009A1017 /* EventEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F812AB48AE0009A1017 /* EventEdit.swift */; };
 		C06C6F852AB4B6CC009A1017 /* locationData.json in Resources */ = {isa = PBXBuildFile; fileRef = C06C6F842AB4B6CC009A1017 /* locationData.json */; };
 		C06C6F872AB4BA51009A1017 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F862AB4BA51009A1017 /* Location.swift */; };
+		C06C6F8B2AB4D3EF009A1017 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F8A2AB4D3EF009A1017 /* EventManager.swift */; };
+		C06C6F8D2AB59A18009A1017 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F8C2AB59A18009A1017 /* Util.swift */; };
+		C06C6F902AB609ED009A1017 /* CircleToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F8F2AB609ED009A1017 /* CircleToggle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +34,9 @@
 		C06C6F812AB48AE0009A1017 /* EventEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEdit.swift; sourceTree = "<group>"; };
 		C06C6F842AB4B6CC009A1017 /* locationData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = locationData.json; sourceTree = "<group>"; };
 		C06C6F862AB4BA51009A1017 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		C06C6F8A2AB4D3EF009A1017 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
+		C06C6F8C2AB59A18009A1017 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		C06C6F8F2AB609ED009A1017 /* CircleToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleToggle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,8 @@
 			children = (
 				C06C6F6D2AB41182009A1017 /* Assets.xcassets */,
 				C06C6F692AB41181009A1017 /* RegEventApp.swift */,
+				C06C6F8E2AB609D1009A1017 /* Helper */,
+				C06C6F882AB4D383009A1017 /* Util */,
 				C06C6F7E2AB46C3D009A1017 /* View */,
 				C06C6F7D2AB46C2D009A1017 /* Model */,
 				C06C6F832AB4B664009A1017 /* Resource */,
@@ -107,6 +115,23 @@
 				C06C6F842AB4B6CC009A1017 /* locationData.json */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		C06C6F882AB4D383009A1017 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				C06C6F8A2AB4D3EF009A1017 /* EventManager.swift */,
+				C06C6F8C2AB59A18009A1017 /* Util.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		C06C6F8E2AB609D1009A1017 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				C06C6F8F2AB609ED009A1017 /* CircleToggle.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,8 +206,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C06C6F782AB41462009A1017 /* Single.swift in Sources */,
+				C06C6F8D2AB59A18009A1017 /* Util.swift in Sources */,
 				C06C6F6C2AB41181009A1017 /* ContentView.swift in Sources */,
+				C06C6F902AB609ED009A1017 /* CircleToggle.swift in Sources */,
 				C06C6F872AB4BA51009A1017 /* Location.swift in Sources */,
+				C06C6F8B2AB4D3EF009A1017 /* EventManager.swift in Sources */,
 				C06C6F7A2AB468D3009A1017 /* Event.swift in Sources */,
 				C06C6F6A2AB41181009A1017 /* RegEventApp.swift in Sources */,
 				C06C6F822AB48AE0009A1017 /* EventEdit.swift in Sources */,
@@ -318,6 +346,7 @@
 				DEVELOPMENT_TEAM = 87QZLH87XU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "カレンダーにイベントを追加します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -347,6 +376,7 @@
 				DEVELOPMENT_TEAM = 87QZLH87XU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "カレンダーにイベントを追加します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

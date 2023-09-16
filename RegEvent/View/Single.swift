@@ -9,28 +9,57 @@ import SwiftUI
 
 struct Single: View {
     @EnvironmentObject var modelData: ModelData
-    @State private var showAlert = false
+    @State private var showAddAlert = false
+    @State private var showAddErrorAlert = false
+    @State private var showAddSuccessAlert = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            HStack {
-                Spacer()
-                Button("追加") {
-                    showAlert = true
-                }
-                .alert("カレンダーに追加", isPresented: $showAlert) {
-                    Button("キャンセル") {
+            ZStack {
+                Text("イベントを作成")
+                    .bold()
+                    .frame(maxWidth: .infinity)
+
+                HStack {
+                    Spacer()
+                    Button("追加") {
+                        showAddAlert = true
                     }
-                    Button("OK") {
+                    .disabled(modelData.calendar == nil)
+                    .alert("カレンダーに追加", isPresented: $showAddAlert) {
+                        Button("キャンセル") {
+                        }
+                        Button("OK") {
+                            do {
+                                try modelData.eventManager.addEvent(modelData: modelData)
+                                showAddSuccessAlert = true
+                            } catch {
+                                print(error)
+                                showAddErrorAlert = true
+                            }
+                        }
+                    } message: {
+                        Text("以下のイベントをカレンダーに追加してもよろしいですか？\n\n\(modelData.event.eventString(modelData: modelData))")
                     }
-                } message: {
-                    Text("以下のイベントをカレンダーに追加してもよろしいですか？\n\n\(modelData.event.eventString(modelData: modelData))")
+                    .alert("エラー", isPresented: $showAddErrorAlert) {
+                        Button("OK") {}
+                    } message: {
+                        Text("カレンダーへのイベントの追加に失敗しました。")
+                    }
+                    .alert("完了", isPresented: $showAddSuccessAlert) {
+                        Button("OK") {}
+                    } message: {
+                        Text("カレンダーにイベントを追加しました。")
+                    }
                 }
             }
+            .padding([.top, .horizontal])
 
-            EventEdit(event: $modelData.event)
+            EventEdit()
         }
-        .padding()
+        .onAppear {
+            modelData.getCalendar()
+        }
     }
 }
 
