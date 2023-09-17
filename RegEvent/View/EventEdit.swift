@@ -7,8 +7,15 @@
 
 import SwiftUI
 import EventKit
+import CoreData
 
 struct EventEdit: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \EventTitle.calendar_id, ascending: true)],
+        animation: .default)
+    private var eventTitles: FetchedResults<EventTitle>
+
     @EnvironmentObject var modelData: ModelData
     @State private var hourPickerIndex = 0
     private static let courtNumberToggles = ["1", "2", "3", "4", "5", "?"]
@@ -24,6 +31,13 @@ struct EventEdit: View {
                                 .tag(EKCalendar?.some(calendar))
                         }
                     }
+                }
+                .onChange(of: modelData.calendar) { value in
+                    // タイトルを設定
+                    if (value == nil) { return }
+                    let item = eventTitles.first(where: { i in i.calendar_id == value!.calendarIdentifier })
+                    if (item == nil || item!.name == nil) { return }
+                    $modelData.event.title.wrappedValue = item!.name!
                 }
             } footer: {
                 if (!modelData.eventManager.eventStoreAuthorized()) {
@@ -133,7 +147,10 @@ struct EventEdit: View {
 
 struct EventEdit_Previews: PreviewProvider {
     static var previews: some View {
+        let persistenceController = PersistenceController.shared
+
         EventEdit()
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .environmentObject(ModelData())
     }
 }

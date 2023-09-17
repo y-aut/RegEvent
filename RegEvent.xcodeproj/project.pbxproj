@@ -20,6 +20,8 @@
 		C06C6F8B2AB4D3EF009A1017 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F8A2AB4D3EF009A1017 /* EventManager.swift */; };
 		C06C6F8D2AB59A18009A1017 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F8C2AB59A18009A1017 /* Util.swift */; };
 		C06C6F902AB609ED009A1017 /* CircleToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C6F8F2AB609ED009A1017 /* CircleToggle.swift */; };
+		C0EB808E2AB6BF18007C9F58 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EB808D2AB6BF18007C9F58 /* Persistence.swift */; };
+		C0EB80B72AB6C349007C9F58 /* RegEvent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C0EB80B52AB6C349007C9F58 /* RegEvent.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		C06C6F8A2AB4D3EF009A1017 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		C06C6F8C2AB59A18009A1017 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		C06C6F8F2AB609ED009A1017 /* CircleToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleToggle.swift; sourceTree = "<group>"; };
+		C0EB808D2AB6BF18007C9F58 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		C0EB80B62AB6C349007C9F58 /* RegEvent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RegEvent.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,14 +73,15 @@
 		C06C6F682AB41181009A1017 /* RegEvent */ = {
 			isa = PBXGroup;
 			children = (
-				C06C6F6D2AB41182009A1017 /* Assets.xcassets */,
 				C06C6F692AB41181009A1017 /* RegEventApp.swift */,
+				C06C6F6D2AB41182009A1017 /* Assets.xcassets */,
+				C0EB80812AB6BC26007C9F58 /* Data */,
 				C06C6F8E2AB609D1009A1017 /* Helper */,
+				C06C6F7D2AB46C2D009A1017 /* Model */,
+				C06C6F6F2AB41182009A1017 /* Preview Content */,
+				C06C6F832AB4B664009A1017 /* Resource */,
 				C06C6F882AB4D383009A1017 /* Util */,
 				C06C6F7E2AB46C3D009A1017 /* View */,
-				C06C6F7D2AB46C2D009A1017 /* Model */,
-				C06C6F832AB4B664009A1017 /* Resource */,
-				C06C6F6F2AB41182009A1017 /* Preview Content */,
 			);
 			path = RegEvent;
 			sourceTree = "<group>";
@@ -92,9 +97,9 @@
 		C06C6F7D2AB46C2D009A1017 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C06C6F7F2AB48A1F009A1017 /* ModelData.swift */,
 				C06C6F792AB468D3009A1017 /* Event.swift */,
 				C06C6F862AB4BA51009A1017 /* Location.swift */,
+				C06C6F7F2AB48A1F009A1017 /* ModelData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -103,8 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				C06C6F6B2AB41181009A1017 /* ContentView.swift */,
-				C06C6F772AB41462009A1017 /* Single.swift */,
 				C06C6F812AB48AE0009A1017 /* EventEdit.swift */,
+				C06C6F772AB41462009A1017 /* Single.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -132,6 +137,15 @@
 				C06C6F8F2AB609ED009A1017 /* CircleToggle.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		C0EB80812AB6BC26007C9F58 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C0EB808D2AB6BF18007C9F58 /* Persistence.swift */,
+				C0EB80B52AB6C349007C9F58 /* RegEvent.xcdatamodeld */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,8 +220,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C06C6F782AB41462009A1017 /* Single.swift in Sources */,
+				C0EB80B72AB6C349007C9F58 /* RegEvent.xcdatamodeld in Sources */,
 				C06C6F8D2AB59A18009A1017 /* Util.swift in Sources */,
 				C06C6F6C2AB41181009A1017 /* ContentView.swift in Sources */,
+				C0EB808E2AB6BF18007C9F58 /* Persistence.swift in Sources */,
 				C06C6F902AB609ED009A1017 /* CircleToggle.swift in Sources */,
 				C06C6F872AB4BA51009A1017 /* Location.swift in Sources */,
 				C06C6F8B2AB4D3EF009A1017 /* EventManager.swift in Sources */,
@@ -417,6 +433,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C0EB80B52AB6C349007C9F58 /* RegEvent.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C0EB80B62AB6C349007C9F58 /* RegEvent.xcdatamodel */,
+			);
+			currentVersion = C0EB80B62AB6C349007C9F58 /* RegEvent.xcdatamodel */;
+			path = RegEvent.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C06C6F5E2AB41181009A1017 /* Project object */;
 }
