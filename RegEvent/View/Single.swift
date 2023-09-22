@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import EventKit
 
 struct Single: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -15,12 +16,16 @@ struct Single: View {
     private var eventTitles: FetchedResults<EventTitle>
     
     @EnvironmentObject var modelData: ModelData
+
+    @State var calendar: EKCalendar?
+    @State private var event = Event()
+
     @State private var showAddAlert = false
     @State private var showAddErrorAlert = false
     @State private var showAddSuccessAlert = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack {
             ZStack {
                 Text("イベントを作成")
                     .bold()
@@ -31,23 +36,23 @@ struct Single: View {
                     Button("追加") {
                         showAddAlert = true
                     }
-                    .disabled(modelData.calendar == nil)
+                    .disabled(calendar == nil)
                     .alert("カレンダーに追加", isPresented: $showAddAlert) {
                         Button("キャンセル") {
                         }
                         Button("OK") {
                             do {
-                                try modelData.eventManager.addEvent(modelData: modelData)
+                                try modelData.eventManager.addEvent(event: event, calendar: calendar!, modelData: modelData)
                                 showAddSuccessAlert = true
                                 // EventTitle を保存
-                                addEventTitle(calendarId: modelData.calendar!.calendarIdentifier, name: modelData.event.title)
+                                Util.addEventTitle(eventTitles: eventTitles, viewContext: viewContext, calendarId: calendar!.calendarIdentifier, name: event.title)
                             } catch {
                                 print(error)
                                 showAddErrorAlert = true
                             }
                         }
                     } message: {
-                        Text("以下のイベントをカレンダーに追加してもよろしいですか？\n\n\(modelData.event.eventString(modelData: modelData))")
+                        Text("以下のイベントをカレンダーに追加してもよろしいですか？\n\n\(event.eventString(modelData: modelData))")
                     }
                     .alert("エラー", isPresented: $showAddErrorAlert) {
                         Button("OK") {}
@@ -63,28 +68,7 @@ struct Single: View {
             }
             .padding([.top, .horizontal])
 
-            EventEdit()
-        }
-        .onAppear {
-            modelData.getCalendar()
-        }
-    }
-
-    private func addEventTitle(calendarId: String, name: String) {
-        var item = eventTitles.first(where: { i in i.calendar_id == calendarId })
-        if (item == nil) {
-            item = EventTitle(context: viewContext)
-            item!.calendar_id = calendarId
-        }
-        item!.name = name
-
-        do {
-            try viewContext.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            EventEdit(calendar: $calendar, event: $event)
         }
     }
 }

@@ -34,16 +34,16 @@ class EventManager: ObservableObject {
         return eventStoreAuthorized()
     }
 
-    func addEvent(modelData: ModelData) throws {
-        let startDate = Util.setHour(date: modelData.event.date, hour: modelData.event.startHour)
-        let endDate = Util.setHour(date: modelData.event.date, hour: modelData.event.endHour)
+    func addEvent(event: Event, calendar: EKCalendar, modelData: ModelData) throws {
+        let startDate = event.date.setHour(hour: event.startHour)
+        let endDate = event.date.setHour(hour: event.endHour)
 
-        let event = EKEvent(eventStore: eventStore)
-        event.title = modelData.event.eventString(modelData: modelData)
-        event.startDate = startDate
-        event.endDate = endDate
-        event.location = modelData.event.getLocation(modelData: modelData).name
-        event.calendar = modelData.calendar
-        try eventStore.save(event, span: .thisEvent)
+        let ekEvent = EKEvent(eventStore: eventStore)
+        ekEvent.title = event.eventString(modelData: modelData)
+        ekEvent.startDate = startDate
+        ekEvent.endDate = endDate
+        ekEvent.location = event.getLocation(modelData: modelData).name
+        ekEvent.calendar = calendar
+        try eventStore.save(ekEvent, span: .thisEvent)
     }
 }
