@@ -63,21 +63,18 @@ struct Event {
     }
 
     func eventString(modelData: ModelData) -> String {
-        var courtNumStr = ""
+        var courtNumStr = courtNumber
         if (!courtNumber.isEmpty) {
-            courtNumStr += " "
             if (courtNumber.count == 1) {
                 let num = Int(courtNumber)
                 if (num != nil && 1 <= num! && num! <= 9) {
                     let circle = 0x2460
-                    courtNumStr += String(UnicodeScalar(circle + num! - 1)!)
+                    courtNumStr = String(UnicodeScalar(circle + num! - 1)!)
                 } else if (courtNumber == "?") {
-                    courtNumStr += "？"
-                } else {
-                    courtNumStr += courtNumber
+                    courtNumStr = "？"
                 }
             }
-            courtNumStr += "番コート"
+            courtNumStr = " " + courtNumStr + "番コート"
         }
         return "\(title) \(getLocation(modelData: modelData).display)\(Self.hourString(startHour, endHour))\(courtNumStr)"
     }
